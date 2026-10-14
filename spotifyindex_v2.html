@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <!-- GOOGLE ANALYTICS AQUÍ -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spotify - Migra tu música y obtén 3 meses gratis</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --spotify-green: #1DB954;
+            --spotify-green-hover: #1ed760;
+            --bg-dark: #121212;
+            --bg-card: #282828;
+            --text-main: #FFFFFF;
+            --text-muted: #B3B3B3;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        /* Animaciones Festivas */
+        @keyframes floatMusic {
+            0% { transform: translateY(0) rotate(0deg); opacity: 0.8; }
+            50% { transform: translateY(-20px) rotate(10deg); opacity: 1; }
+            100% { transform: translateY(0) rotate(0deg); opacity: 0.8; }
+        }
+
+        @keyframes pulseGlow {
+            0% { box-shadow: 0 0 10px rgba(29, 185, 84, 0.3); }
+            50% { box-shadow: 0 0 25px rgba(29, 185, 84, 0.7); }
+            100% { box-shadow: 0 0 10px rgba(29, 185, 84, 0.3); }
+        }
+
+        @keyframes eqBounce {
+            0% { height: 10px; }
+            100% { height: 40px; }
+        }
+
+        /* Utilidades Botones */
+        .btn {
+            display: inline-block;
+            background-color: var(--spotify-green);
+            color: var(--bg-dark);
+            font-weight: 900;
+            padding: 16px 36px;
+            border-radius: 500px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            transition: transform 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(29, 185, 84, 0.4);
+            position: relative;
+            z-index: 2;
+        }
+
+        .btn:hover {
+            background-color: var(--spotify-green-hover);
+            transform: scale(1.06);
+            box-shadow: 0 6px 20px rgba(29, 185, 84, 0.6);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            color: var(--text-main);
+            border: 2px solid var(--spotify-green);
+            box-shadow: none;
+        }
+
+        .btn-outline:hover {
+            background-color: rgba(29, 185, 84, 0.1);
+            transform: scale(1.04);
+            box-shadow: 0 0 15px rgba(29, 185, 84, 0.3);
+        }
+
+        /* Header */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 5%;
+            background-color: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(10px);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.5rem;
+            font-weight: 900;
+            letter-spacing: -0.5px;
+        }
+
+        /* Hero Section */
+        #hero {
+            text-align: center;
+            padding: 120px 20px;
+            background: linear-gradient(180deg, #1d3326 0%, var(--bg-dark) 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Elementos musicales de fondo (CSS puro) */
+        .nota-musical {
+            position: absolute;
+            font-size: 4rem;
+            color: rgba(255, 255, 255, 0.05);
+            animation: floatMusic 6s ease-in-out infinite;
+            z-index: 1;
+        }
+        .nota-1 { top: 10%; left: 10%; animation-delay: 0s; font-size: 6rem; }
+        .nota-2 { top: 60%; right: 15%; animation-delay: 2s; font-size: 8rem; }
+        .nota-3 { bottom: 20%; left: 20%; animation-delay: 4s; font-size: 5rem; }
+
+        /* Ecualizador CSS */
+        .equalizer-container {
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            gap: 6px;
+            height: 40px;
+            margin: 0 auto 30px;
+            position: relative;
+            z-index: 2;
+        }
+        .eq-bar {
+            width: 8px;
+            background-color: var(--spotify-green);
+            border-radius: 4px 4px 0 0;
+            animation: eqBounce 0.5s infinite alternate ease-in;
+        }
+        .eq-bar:nth-child(1) { animation-duration: 0.4s; }
+        .eq-bar:nth-child(2) { animation-duration: 0.7s; }
+        .eq-bar:nth-child(3) { animation-duration: 0.5s; }
+        .eq-bar:nth-child(4) { animation-duration: 0.3s; }
+        .eq-bar:nth-child(5) { animation-duration: 0.6s; }
+
+        #hero h1 {
+            font-size: 3.5rem;
+            max-width: 800px;
+            margin: 0 auto 20px;
+            line-height: 1.1;
+            font-weight: 900;
+            position: relative;
+            z-index: 2;
+            text-shadow: 0 4px 10px rgba(0,0,0,0.5);
+        }
+
+        #hero p {
+            font-size: 1.25rem;
+            color: #EBEBEB;
+            max-width: 600px;
+            margin: 0 auto 40px;
+            position: relative;
+            z-index: 2;
+            font-weight: 600;
+        }
+
+        /* Beneficios (Objeciones) */
+        #beneficios {
+            padding: 80px 5%;
+            text-align: center;
+            background-color: #121212;
+        }
+
+        #beneficios h2 {
+            font-size: 2.5rem;
+            margin-bottom: 50px;
+            font-weight: 900;
+        }
+
+        .grid-4 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 25px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .card {
+            background-color: var(--bg-card);
+            padding: 40px 25px;
+            border-radius: 12px;
+            text-align: left;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            position: relative;
+            overflow: hidden;
+            border: 1px solid transparent;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            background-color: #333333;
+            border-color: rgba(29, 185, 84, 0.3);
+        }
+
+        /* Tarjeta Destacada */
+        .card.destacada {
+            background: linear-gradient(145deg, #2a2a2a, #1f1f1f);
+            border: 2px solid var(--spotify-green);
+            animation: pulseGlow 3s infinite;
+            transform: scale(1.05);
+            z-index: 10;
+        }
+
+        .card.destacada:hover {
+            transform: scale(1.08) translateY(-5px);
+        }
+
+        .badge-recomendado {
+            position: absolute;
+            top: 15px;
+            right: -30px;
+            background-color: var(--spotify-green);
+            color: var(--bg-dark);
+            font-size: 0.75rem;
+            font-weight: 900;
+            padding: 5px 30px;
+            transform: rotate(45deg);
+            text-transform: uppercase;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .card svg {
+            width: 48px;
+            height: 48px;
+            fill: var(--spotify-green);
+            margin-bottom: 20px;
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover svg {
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        .card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 12px;
+            font-weight: 700;
+        }
+
+        .card p {
+            color: var(--text-muted);
+            font-size: 1rem;
+            line-height: 1.5;
+        }
+
+        /* Pasos de Migración */
+        #pasos-migracion {
+            padding: 100px 5%;
+            background: linear-gradient(180deg, #121212 0%, #181818 100%);
+            text-align: center;
+        }
+
+        #pasos-migracion h2 {
+            font-size: 2.5rem;
+            margin-bottom: 60px;
+            font-weight: 900;
+        }
+
+        .pasos-container {
+            display: flex;
+            flex-direction: column;
+            gap: 50px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        @media(min-width: 768px) {
+            .pasos-container {
+                flex-direction: row;
+                justify-content: space-between;
+                position: relative;
+            }
+            /* Línea conectora entre pasos */
+            .pasos-container::before {
+                content: '';
+                position: absolute;
+                top: 40px;
+                left: 15%;
+                right: 15%;
+                height: 2px;
+                background: linear-gradient(90deg, transparent, var(--spotify-green), transparent);
+                z-index: 1;
+            }
+        }
+
+        .paso {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .circulo {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background-color: var(--bg-dark);
+            border: 4px solid var(--spotify-green);
+            color: var(--spotify-green);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            font-weight: 900;
+            margin-bottom: 25px;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 20px rgba(0,0,0,0.5) inset;
+        }
+
+        .paso:hover .circulo {
+            background-color: var(--spotify-green);
+            color: var(--bg-dark);
+            transform: scale(1.1) rotate(360deg);
+            box-shadow: 0 0 20px rgba(29, 185, 84, 0.6);
+        }
+
+        .paso h3 {
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+        }
+
+        .paso p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        /* Evidencia */
+        #evidencia {
+            padding: 80px 5%;
+            text-align: center;
+            background-color: #181818;
+        }
+        
+        .evidencia-box {
+            background: linear-gradient(90deg, #282828 0%, #1a1a1a 100%);
+            border-radius: 16px;
+            padding: 50px;
+            max-width: 900px;
+            margin: 0 auto;
+            border-left: 6px solid var(--spotify-green);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+            position: relative;
+        }
+
+        .evidencia-box::before {
+            content: '"';
+            position: absolute;
+            top: 10px;
+            left: 20px;
+            font-size: 6rem;
+            color: rgba(29, 185, 84, 0.2);
+            font-family: serif;
+            line-height: 1;
+        }
+
+        .evidencia-box p {
+            font-size: 1.25rem;
+            font-style: italic;
+            color: var(--text-main);
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Cierre CTA */
+        #cierre {
+            padding: 100px 20px;
+            text-align: center;
+            background: linear-gradient(0deg, #1d3326 0%, var(--bg-dark) 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        #cierre h2 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            font-weight: 900;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            font-size: 0.85rem;
+            color: #777;
+            background-color: #000000;
+        }
+
+        @media (max-width: 768px) {
+            #hero h1 { font-size: 2.2rem; }
+            #cierre h2 { font-size: 2.2rem; }
+            .btn { width: 100%; padding: 16px 20px; }
+            header { flex-direction: column; gap: 15px; }
+            .btn-outline { width: 100%; }
+            .card.destacada { transform: scale(1); margin: 10px 0; }
+            .card.destacada:hover { transform: scale(1.02); }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo">
+            <svg viewBox="0 0 24 24" width="36" height="36" fill="var(--spotify-green)">
+                <path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.24 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.02.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.84.24 1.2zM20.4 9.36C16.68 7.14 9.72 6.96 5.64 8.16c-.6.18-1.2-.18-1.38-.72-.18-.6.18-1.2.72-1.38 4.68-1.38 12.36-1.14 16.68 1.44.54.36.72 1.08.36 1.62-.36.6-.96.72-1.62.24z"/>
+            </svg>
+            Spotify
+        </div>
+        <a href="#" class="btn btn-outline">OBTENER 3 MESES GRATIS</a>
+    </header>
+
+    <main>
+        <section id="hero">
+            <!-- Notas musicales animadas -->
+            <div class="nota-musical nota-1">♪</div>
+            <div class="nota-musical nota-2">♫</div>
+            <div class="nota-musical nota-3">♩</div>
+            
+            <!-- Ecualizador -->
+            <div class="equalizer-container">
+                <div class="eq-bar"></div>
+                <div class="eq-bar"></div>
+                <div class="eq-bar"></div>
+                <div class="eq-bar"></div>
+                <div class="eq-bar"></div>
+            </div>
+
+            <h1>Trae todas tus playlists y disfruta 3 meses gratis</h1>
+            <p>Migra tu música desde Apple Music o YouTube Music con un solo clic. Sin perder canciones y con la mejor calidad de audio.</p>
+            <a href="#" id="cta-principal" class="btn" target="_blank" rel="noopener">MIGRA TU MÚSICA</a>
+        </section>
+
+        <section id="beneficios">
+            <h2>¿Por qué cambiarte a Spotify?</h2>
+            <div class="grid-4">
+                <!-- Objeción: Pérdida de Playlists - TARJETA DESTACADA -->
+                <div class="card destacada">
+                    <div class="badge-recomendado">Top Razón</div>
+                    <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9V8h2v8zm4 0h-2V8h2v8z"/></svg>
+                    <h3>Cero pérdida de listas</h3>
+                    <p>Sincronizamos tus listas exactas desde tu app actual. No pierdes ni un solo track en el proceso.</p>
+                </div>
+                <!-- Objeción: Precio -->
+                <div class="card">
+                    <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
+                    <h3>3 Meses de regalo</h3>
+                    <p>Prueba nuestra plataforma Premium sin ningún costo durante 90 días. Cancela cuando quieras.</p>
+                </div>
+                <!-- Objeción: Diseño e interfaz -->
+                <div class="card">
+                    <svg viewBox="0 0 24 24"><path d="M3 13h2v-2H3v2zm0 4h2v-2H3v2zm0-8h2V7H3v2zm4 4h14v-2H7v2zm0 4h14v-2H7v2zM7 7v2h14V7H7z"/></svg>
+                    <h3>La mejor interfaz</h3>
+                    <p>Descubre nueva música fácilmente con el diseño más intuitivo del mercado de streaming.</p>
+                </div>
+                <!-- Objeción: Catálogo y calidad -->
+                <div class="card">
+                    <svg viewBox="0 0 24 24"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg>
+                    <h3>Calidad y catálogo</h3>
+                    <p>Millones de canciones, podcasts exclusivos y el algoritmo de recomendación líder en el mundo.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="pasos-migracion">
+            <h2>Importar tu música es así de simple</h2>
+            <div class="pasos-container">
+                <div class="paso">
+                    <div class="circulo">1</div>
+                    <h3>Conecta tu cuenta</h3>
+                    <p>Elige tu plataforma actual de música (Apple Music o YT Music) e inicia sesión.</p>
+                </div>
+                <div class="paso">
+                    <div class="circulo">2</div>
+                    <h3>Selecciona tus listas</h3>
+                    <p>Marca las playlists que deseas traer. Nuestro sistema las empareja al instante.</p>
+                </div>
+                <div class="paso">
+                    <div class="circulo">3</div>
+                    <h3>Empieza a escuchar</h3>
+                    <p>Tus canciones están listas junto a tus 3 meses Premium gratuitos activados.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="evidencia">
+            <div class="evidencia-box">
+                <h2>[EVIDENCIA DE USUARIOS]</h2>
+                <p>«TEXTO DE EJEMPLO: "Tenía miedo de perder mis listas creadas durante años en Apple Music, pero la migración con Spotify tomó literalmente 2 minutos y ahora disfruto la prueba gratis con un algoritmo de recomendaciones superior." - [Nombre de Ejemplo]»</p>
+            </div>
+        </section>
+
+        <section id="cierre">
+            <!-- Ecualizador decorativo en cierre -->
+            <div class="equalizer-container" style="margin-bottom: 20px;">
+                <div class="eq-bar"></div>
+                <div class="eq-bar"></div>
+                <div class="eq-bar"></div>
+                <div class="eq-bar"></div>
+                <div class="eq-bar"></div>
+            </div>
+            
+            <h2>¿Listo para subir el volumen?</h2>
+            <p style="margin-bottom: 40px; color: var(--text-muted); font-size: 1.2rem;">El proceso toma menos de 3 minutos. Tu música te está esperando.</p>
+            <a href="#" class="btn cta-principal" target="_blank" rel="noopener">MIGRA TU MÚSICA</a>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2027 Spotify AB. Aplican Términos y Condiciones. Oferta válida solo para usuarios que no hayan probado Premium anteriormente.</p>
+    </footer>
+
+</body>
+</html>
